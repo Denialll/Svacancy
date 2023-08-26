@@ -1,0 +1,65 @@
+/*vacancies {*/
+/*    font-family: 'Open Sans', sans-serif;*/
+/*    background-color: #eee;*/
+/*}*/
+
+.cardd {
+    max-height: 310px;
+    height: 310px;
+    cursor: pointer;
+    float: left;
+    display-inline: block;
+    background-color: #fff;
+    width: 280px;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 10px 10px 40px #434040;
+    margin: auto;
+    margin-left: 25px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.card-img {
+    border-radius: 11px;
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+.card-salary{
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.card-sub {
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 20px;
+}
+
+.card-tag {
+    font-size: 12px;
+    font-weight: 200;
+    margin-top: 15px;
+}
+
+.btn-keeper {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.cardd:hover{
+    transition: transform 0.3s;
+    transform: scale(1.05);
+}
+
+.cardd:not(hover){
+    transition: transform 0.3s;
+    transform: scale(1);
+}
+
+
