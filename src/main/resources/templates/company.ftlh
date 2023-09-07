@@ -32,5 +32,6 @@
                 </tbody>
             </table>
         </#if>
+        <#include "parts/vacancyList.ftlh">
     </div>
 </@c.page>

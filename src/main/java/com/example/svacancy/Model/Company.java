@@ -3,7 +3,6 @@ package com.example.svacancy.Model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 
 import java.util.*;
 
@@ -23,6 +22,10 @@ public class Company {
     @NotBlank(message = "Description can't be empty")
     private String description;
     private Boolean active = false;
+    @OneToMany(mappedBy = "company", cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    private Set<User> employees = new HashSet<>();
+    @OneToMany(mappedBy = "company", cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    private Set<Vacancy> companyVacancies;
 
     public Long getId() {
         return id;
@@ -72,12 +75,12 @@ public class Company {
         this.description = description;
     }
 
-    public Set<User> getEmployes() {
-        return employes;
+    public Set<User> getEmployees() {
+        return employees;
     }
 
-    public void setEmployes(Set<User> employes) {
-        this.employes = employes;
+    public void setEmployees(Set<User> employees) {
+        this.employees = employees;
     }
 
     public Set<Vacancy> getCompanyVacancies() {
@@ -88,15 +91,13 @@ public class Company {
         this.companyVacancies = companyVacancies;
     }
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-    private Set<User> employes = new HashSet<>();
-    @OneToMany(mappedBy = "company", cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-    private Set<Vacancy> companyVacancies;
-
-    public void addWorker(User user){
-        employes.add(user);
+    public void addWorker(User user) {
+        employees.add(user);
     }
-    public void removeEmploy(User user){this.employes.remove(user);}
+
+    public void removeEmploy(User user) {
+        this.employees.remove(user);
+    }
 
     public Boolean getActive() {
         return active;

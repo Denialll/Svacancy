@@ -220,7 +220,7 @@ public class VacancyController {
             model.mergeAttributes(errorsMap);
         }
 
-        userService.respondVacancy(currentUser, currentVacancyId, chatRoom, chatMessage);
+        vacancyService.respondVacancy(currentUser, currentVacancyId, chatRoom, chatMessage);
 
         return "main";
     }

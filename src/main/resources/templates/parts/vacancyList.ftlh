@@ -38,8 +38,8 @@
 
             <div class='btn-keeper'>
                 <#if vacancy.author.id == userId && isHR>
-                <a type="button" class="col btn btn-info"
-                   href="/user-messages/${vacancy.author.id}?vacancy=${vacancy.id}"> Edit </a>
+                    <a type="button" class="col btn btn-info"
+                       href="/user-messages/${vacancy.author.id}?vacancy=${vacancy.id}"> Edit </a>
                 <#elseif isUser>
                 </#if>
                 <#--                <button type="button" class="btn btn-primary" data-bs-toggle="modal"-->
@@ -120,8 +120,6 @@
                 </div>
             </div>
         </div>
-
-
 
 
         <#--        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"-->

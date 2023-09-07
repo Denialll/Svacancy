@@ -53,7 +53,7 @@ public class CompanyService {
     }
 
     public void deleteCompany(Company company) {
-        Set<User> userList = company.getEmployes();
+        Set<User> userList = company.getEmployees();
 
         for (User user : userList) {
             user.setCompany(null);

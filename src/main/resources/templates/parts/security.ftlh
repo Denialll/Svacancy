@@ -10,6 +10,7 @@
     isHR = user.isHR()
     isUser = user.isUser()
     isEmployed = user.isEmployed()
+    companyId = user.getCompanyCreatorId()
     userId = user.getId()
     roomId = ""
     >
@@ -22,7 +23,7 @@
     isEmployed = false
     isCreator = false
     isCompanyActive = false
+    companyId = -1
     userId = -1
-    companyIsActive = false
     >
 </#if>

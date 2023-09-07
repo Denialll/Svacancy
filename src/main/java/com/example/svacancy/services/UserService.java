@@ -168,17 +168,6 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
     }
 
-    public void respondVacancy(User user, String currentVacancyId, ChatRoom chatRoom, ChatMessage chatMessage){
-        Vacancy vacancy = vacancyService.findById(currentVacancyId);
-        if(user.getRespondedVacancies().contains(vacancy)) throw new RespondVacancyException("You have already respond on this vacancy");
-
-        chatRoom.addChatMessage(chatMessage);
-        user.addChatRoom(chatRoom);
-        user.addRespondedVacancy(vacancy);
-
-        userRepo.save(user);
-    }
-
     public void saveUser(User user){
         userRepo.save(user);
     }

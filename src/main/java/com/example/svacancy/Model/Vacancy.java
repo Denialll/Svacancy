@@ -30,6 +30,22 @@ public class Vacancy {
     @JoinColumn(name = "company_id")
     private Company company;
 
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<User> numberOfResponded = new HashSet<>();
+
+    public Set<User> getNumberOfResponded() {
+        return numberOfResponded;
+    }
+
+    public void addNumberOfResponded(User user) {
+        this.numberOfResponded.add(user);
+    }
+
+    public void setNumberOfResponded(Set<User> numberOfResponded) {
+        this.numberOfResponded = numberOfResponded;
+    }
+
     public String getSalary() {
         return salary;
     }
@@ -39,10 +55,10 @@ public class Vacancy {
     }
 
     public void setSalaryFromTo(String salaryFrom, String salaryTo) {
-        if(salaryFrom.equals("")) salaryFrom = null;
-        if(salaryTo.equals("")) salaryTo = null;
+        if (salaryFrom.equals("")) salaryFrom = null;
+        if (salaryTo.equals("")) salaryTo = null;
 
-        if (salaryFrom != null && salaryTo != null){
+        if (salaryFrom != null && salaryTo != null) {
             if (Integer.parseInt(salaryFrom) >= Integer.parseInt(salaryTo)) {
                 throw new SalaryException("Salary is incorrect");
             }

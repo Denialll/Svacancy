@@ -1,9 +1,8 @@
 package com.example.svacancy.services;
 
-import com.example.svacancy.Model.Company;
-import com.example.svacancy.Model.Vacancy;
-import com.example.svacancy.Model.User;
+import com.example.svacancy.Model.*;
 import com.example.svacancy.Model.dto.VacancyDto;
+import com.example.svacancy.exception.RegistrationException.VacancyException.RespondVacancyException;
 import com.example.svacancy.repos.VacancyRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,6 +61,20 @@ public class VacancyService {
         return vacancyRepo.findById(id);
     }
 
+    public void respondVacancy(User user, String currentVacancyId, ChatRoom chatRoom, ChatMessage chatMessage){
+        Vacancy vacancy = vacancyRepo.findById(currentVacancyId);
+
+//        if(user.getRespondedVacancies().contains(vacancy)) throw new RespondVacancyException("You have already respond on this vacancy");
+
+        chatRoom.addChatMessage(chatMessage);
+        user.addChatRoom(chatRoom);
+//        user.addRespondedVacancy(vacancy);
+        vacancy.addNumberOfResponded(user);
+
+        vacancyRepo.save(vacancy);
+//        userService.saveUser(user);
+    }
+
     public void saveVacancy(User currentUser, String salaryFrom, String salaryTo, Vacancy vacancy, MultipartFile file) throws IOException {
         Company company = currentUser.getCompany();
 
@@ -71,6 +84,5 @@ public class VacancyService {
         vacancy.setCompany(company);
 
         vacancyRepo.save(vacancy);
-//        company.set
     }
 }

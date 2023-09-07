@@ -31,8 +31,8 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Vacancy> vacancies;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Vacancy> respondedVacancies;
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private Set<Vacancy> respondedVacancies;
     private String activationCode;
 //    @OneToOne
 //    private Company company;
@@ -81,9 +81,9 @@ public class User implements UserDetails {
     )
     private Set<User> subscriptions = new HashSet<>();
 
-    public void addRespondedVacancy(Vacancy vacancy) {
-        this.respondedVacancies.add(vacancy);
-    }
+//    public void addRespondedVacancy(Vacancy vacancy) {
+//        this.respondedVacancies.add(vacancy);
+//    }
 
 //    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    private Set<ChatMessage> sendingMessages;
@@ -95,8 +95,13 @@ public class User implements UserDetails {
     }
 
     public boolean isCompanyActive() {
-        if(company == null) return false;
+        if (company == null) return false;
         return this.company.getActive();
+    }
+
+    public Long getCompanyCreatorId() {
+        if (company == null) return -1l;
+        else return company.getId();
     }
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -132,13 +137,13 @@ public class User implements UserDetails {
         this.vacancies = vacancies;
     }
 
-    public Set<Vacancy> getRespondedVacancies() {
-        return respondedVacancies;
-    }
-
-    public void setRespondedVacancies(Set<Vacancy> respondedVacancies) {
-        this.respondedVacancies = respondedVacancies;
-    }
+//    public Set<Vacancy> getRespondedVacancies() {
+//        return respondedVacancies;
+//    }
+//
+//    public void setRespondedVacancies(Set<Vacancy> respondedVacancies) {
+//        this.respondedVacancies = respondedVacancies;
+//    }
 
 
     public Set<User> getSubscribers() {
@@ -173,8 +178,8 @@ public class User implements UserDetails {
         return roles.contains(Role.USER);
     }
 
-    public boolean isEmployed(){
-        if(company != null) return true;
+    public boolean isEmployed() {
+        if (company != null) return true;
         else return false;
     }
 

@@ -2,7 +2,9 @@ package com.example.svacancy.controller;
 
 import com.example.svacancy.Model.Company;
 import com.example.svacancy.Model.User;
+import com.example.svacancy.Model.Vacancy;
 import com.example.svacancy.Model.dto.VacancyDto;
+import com.example.svacancy.repos.VacancyRepo;
 import com.example.svacancy.services.CompanyService;
 import com.example.svacancy.services.VacancyService;
 import jakarta.validation.Valid;
@@ -19,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
@@ -28,23 +31,27 @@ public class CompanyController {
 
     private final CompanyService companyService;
     private final VacancyService vacancyService;
+    private final VacancyRepo vacancyRepo;
 
-    @GetMapping("company/{author}")
+    @GetMapping("company/{companyId}")
     public String getCompany(
             Model model,
             @AuthenticationPrincipal User currentUser,
-            @PathVariable(name = "author") User author
+            @PathVariable(name = "companyId") Company company,
+            @RequestParam(required = false) Vacancy vacancy,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
     ) {
+        User creator = company.getCreator();
+        Page<VacancyDto> page = vacancyRepo.findByCompany(pageable, creator.getCompany(), currentUser);
 
-        model.addAttribute("isCurrentUser", currentUser.equals(author));
-        model.addAttribute("author", author);
-        model.addAttribute("company", author.getCompany());
-        model.addAttribute("employees", author.getCompany().getEmployes());
-
-        Company company = author.getCompany();
-        var workers = company.getEmployes();
-
-        System.out.println(workers.size());
+        model.addAttribute("page", page);
+        model.addAttribute("vacancy", vacancy);
+        model.addAttribute("url", "/user-messages/" + creator.getId());
+        model.addAttribute("isCurrentUser", currentUser.equals(creator));
+        model.addAttribute("author", creator);
+        model.addAttribute("company", creator.getCompany());
+        model.addAttribute("employees", creator.getCompany().getEmployees());
+        model.addAttribute("vacancies", creator.getCompany().getCompanyVacancies());
 
         return "company";
     }
@@ -58,8 +65,8 @@ public class CompanyController {
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
     ) {
         Page<VacancyDto> page = vacancyService.vacancyListForUser(pageable, currentUser, currentUser);
-        model.addAttribute("page", page);
 
+        model.addAttribute("page", page);
         model.addAttribute("isCurrentUser", true);
         model.addAttribute("userChannel", currentUser);
         model.addAttribute("subscriptionsCount", currentUser.getSubscriptions().size());
@@ -107,7 +114,6 @@ public class CompanyController {
 //
 //        return "redirect:/adminpanel";
 //    }
-
 
 
 }

@@ -32,7 +32,7 @@
             </#if>
             <#if isCompanyActive>
                 <li class="nav-item">
-                    <a class="nav-link text-white bg-dark" href="/company/${userId}">Your company</a>
+                    <a class="nav-link text-white bg-dark" href="/company/${companyId}">Your company</a>
                 </li>
             </#if>
         </ul>
