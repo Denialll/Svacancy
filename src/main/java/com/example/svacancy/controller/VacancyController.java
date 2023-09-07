@@ -83,8 +83,8 @@ public class VacancyController {
                       String salaryFrom, String salaryTo
     ) throws IOException {
 
-        vacancy.setAuthor(currentUser);
-        vacancy.setSalaryFromTo(salaryFrom, salaryTo);
+//        vacancy.setAuthor(currentUser);
+//        vacancy.setSalaryFromTo(salaryFrom, salaryTo);
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrorsMap(bindingResult);
@@ -92,9 +92,10 @@ public class VacancyController {
             model.mergeAttributes(errorsMap);
             model.addAttribute("vacancy", vacancy);
         } else {
-            vacancyService.saveFile(vacancy, file);
+            vacancyService.saveVacancy(currentUser, salaryFrom, salaryTo, vacancy, file);
+//            vacancyService.saveFile(vacancy, file);
             model.addAttribute("vacancy", null);
-            vacancyService.save(vacancy);
+//            vacancyService.save(vacancy);
         }
 
         Page<VacancyDto> page = vacancyService.findAll(pageable, currentUser);

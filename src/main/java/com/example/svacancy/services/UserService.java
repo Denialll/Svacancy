@@ -6,10 +6,7 @@ import com.example.svacancy.exception.RegistrationException.ActivationCodeExcept
 import com.example.svacancy.exception.RegistrationException.EmailException;
 import com.example.svacancy.exception.RegistrationException.UsernameException;
 import com.example.svacancy.exception.RegistrationException.VacancyException.RespondVacancyException;
-import com.example.svacancy.repos.ChatRoomRepo;
-import com.example.svacancy.repos.CoveringLetterRepo;
 import com.example.svacancy.repos.UserRepo;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,12 +25,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepo userRepo;
     private final VacancyService vacancyService;
-    private final ChatRoomRepo chatRoomRepo;
-    private final CompanyService companyService;
-    private final CoveringLetterService coveringLetterService;
-    private final EntityManager em;
     private final PasswordEncoder passwordEncoder;
-    private final CoveringLetterRepo coveringLetterRepo;
     private final MailSender mailSender;
 
     @Override
@@ -63,7 +55,6 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
 
         sendMessageForAcivateUser(user);
-
     }
 
     public void passwordRecovery(String email){
@@ -79,32 +70,6 @@ public class UserService implements UserDetailsService {
 
         sendMessageForPasswordRecover(userFromDb);
 
-    }
-
-    private void sendMessageForPasswordRecover(User user) {
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format(
-                    "Hi %s.  \n" +
-                            "Please, visit next link for change password on your account: http://localhost:8080/change-password/%s",
-                    user.getUsername(),
-                    user.getActivationCode()
-            );
-
-            mailSender.send(user.getEmail(), "Change password", message);
-        }
-    }
-
-    private void sendMessageForAcivateUser(User user) {
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format(
-                    "Hi %s. Welcome to my first simple site! \n" +
-                            "Please, visit next link for activation your account: http://localhost:8080/activate/%s",
-                    user.getUsername(),
-                    user.getActivationCode()
-            );
-
-            mailSender.send(user.getEmail(), "Activation code", message);
-        }
     }
 
     public void activateUser(String code) {
@@ -128,7 +93,7 @@ public class UserService implements UserDetailsService {
 
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
-                .collect(Collectors.toSet()); //Переводим все роли в строковый вид
+                .collect(Collectors.toSet());
 
         user.getRoles().clear();
 
@@ -140,10 +105,6 @@ public class UserService implements UserDetailsService {
 
         userRepo.save(user);
     }
-
-//    public boolean passwordUpdate(String code){
-//
-//    }
 
     public boolean updateProfile(User user, String password, String email) throws EmailException {
         String userEmail = user.getEmail();
@@ -170,19 +131,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public void sendMessageForChangeEmail(User user) {
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format(
-                    "Hi %s. Welcome to my first simple site! \n" +
-                            "Please, visit next link for change your email: http://localhost:8080/user/userUpdate/%s/%s",
-                    user.getUsername(),
-                    user.getEmail(),
-                    user.getActivationCode()
-            );
 
-            mailSender.send(user.getEmail(), "Change email", message);
-        }
-    }
 
     public void updateEmail(String code, String email){
         User userFromDb = userRepo.findByActivationCode(code);
@@ -219,16 +168,6 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
     }
 
-    public void sendHRLetter(User user, Company company, CoveringLetter coveringLetter) {
-        company.setCreator(user);
-        companyService.saveCompany(company);
-
-        coveringLetter.setUser(user);
-        coveringLetter.setDate(new Date());
-
-        coveringLetterService.saveLetter(coveringLetter);
-    }
-
     public void respondVacancy(User user, String currentVacancyId, ChatRoom chatRoom, ChatMessage chatMessage){
         Vacancy vacancy = vacancyService.findById(currentVacancyId);
         if(user.getRespondedVacancies().contains(vacancy)) throw new RespondVacancyException("You have already respond on this vacancy");
@@ -238,5 +177,53 @@ public class UserService implements UserDetailsService {
         user.addRespondedVacancy(vacancy);
 
         userRepo.save(user);
+    }
+
+    public void saveUser(User user){
+        userRepo.save(user);
+    }
+
+    private void sendMessageForPasswordRecover(User user) {
+        if (!StringUtils.isEmpty(user.getEmail())) {
+            String message = String.format(
+                    "Hi %s.  \n" +
+                            "Please, visit next link for change password on your account: http://localhost:8080/change-password/%s",
+                    user.getUsername(),
+                    user.getActivationCode()
+            );
+
+            mailSender.send(user.getEmail(), "Change password", message);
+        }
+    }
+
+    private void sendMessageForAcivateUser(User user) {
+        if (!StringUtils.isEmpty(user.getEmail())) {
+            String message = String.format(
+                    "Hi %s. Welcome to my first simple site! \n" +
+                            "Please, visit next link for activation your account: http://localhost:8080/activate/%s",
+                    user.getUsername(),
+                    user.getActivationCode()
+            );
+
+            mailSender.send(user.getEmail(), "Activation code", message);
+        }
+    }
+
+    public void sendMessageForChangeEmail(User user) {
+        if (!StringUtils.isEmpty(user.getEmail())) {
+            String message = String.format(
+                    "Hi %s. Welcome to my first simple site! \n" +
+                            "Please, visit next link for change your email: http://localhost:8080/user/userupdate/%s/%s",
+                    user.getUsername(),
+                    user.getEmail(),
+                    user.getActivationCode()
+            );
+
+            mailSender.send(user.getEmail(), "Change email", message);
+        }
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepo.findById(id);
     }
 }

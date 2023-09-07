@@ -1,5 +1,6 @@
 package com.example.svacancy.services;
 
+import com.example.svacancy.Model.Company;
 import com.example.svacancy.Model.Vacancy;
 import com.example.svacancy.Model.User;
 import com.example.svacancy.Model.dto.VacancyDto;
@@ -59,5 +60,17 @@ public class VacancyService {
 
     public Vacancy findById(String id){
         return vacancyRepo.findById(id);
+    }
+
+    public void saveVacancy(User currentUser, String salaryFrom, String salaryTo, Vacancy vacancy, MultipartFile file) throws IOException {
+        Company company = currentUser.getCompany();
+
+        saveFile(vacancy, file);
+        vacancy.setAuthor(currentUser);
+        vacancy.setSalaryFromTo(salaryFrom, salaryTo);
+        vacancy.setCompany(company);
+
+        vacancyRepo.save(vacancy);
+//        company.set
     }
 }

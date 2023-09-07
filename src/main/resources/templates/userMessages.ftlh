@@ -64,7 +64,6 @@
 <#--</div>-->
 
 <div class="container">
-    <h3 class=" text-center">Messaging</h3>
     <div class="messaging">
         <div class="inbox_msg">
             <div class="inbox_people">
@@ -101,20 +100,21 @@
 <#--                                                        </#list>-->
 
                             <button onclick="enterChat('11111', 'lola')">AAAAA</button>
-<#--                            <div id="userJoin" class="container">-->
-<#--                                <form id="userJoinForm" name="userJoinForm">-->
-<#--                                    <input type="hidden" id="room" value="22222">-->
-<#--                                    <input type="hidden" id="name" value="${username}">-->
-<#--                                    <button type="submit" class="btn btn-primary">Enter chat</button>-->
-<#--                                </form>-->
-<#--                            </div>-->
-<#--                            <div id="userJoin" class="container">-->
-<#--                                <form id="userJoinForm" name="userJoinForm">-->
-<#--                                    <input type="hidden" id="room" value="11111">-->
-<#--                                    <input type="hidden" id="name" value="${username}">-->
-<#--                                    <button type="submit" class="btn btn-primary">Enter chat</button>-->
-<#--                                </form> -->
-<#--                            </div>-->
+
+                            <div id="userJoin" class="container">
+                                <form id="userJoinForm" name="userJoinForm">
+                                    <input type="hidden" id="room" value="22222">
+                                    <input type="hidden" id="name" value="22222">
+                                    <button type="submit" class="btn btn-primary">Enter chat</button>
+                                </form>
+                            </div>
+                            <div id="userJoin" class="container">
+                                <form id="userJoinForm" name="userJoinForm">
+                                    <input type="hidden" id="room" value="11111">
+                                    <input type="hidden" id="name" value="11111">
+                                    <button type="submit" class="btn btn-primary">Enter chat</button>
+                                </form>
+                            </div>
 
                         </div>
                     </div>

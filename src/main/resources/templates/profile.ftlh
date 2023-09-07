@@ -2,28 +2,30 @@
 <#include "parts/security.ftlh">
 
 <@c.page>
-    <div class="container md-6 mt-3">
+    <div class="container md-5 mt-5">
         <h3>${userChannel.username}</h3>
         <#if !isCurrentUser>
             <#if isSubscriber>
-                <a class="btn btn-info" href="/user/unsubscribe/${userChannel.id}">Unsubscribe</a>
+                <a class="btn btn-info" href="/unsubscribe/${userChannel.id}">Unsubscribe</a>
             <#else>
-                <a class="btn btn-info" href="/user/subscribe/${userChannel.id}">Subscribe</a>
+                <a class="btn btn-info" href="/subscribe/${userChannel.id}">Subscribe</a>
             </#if>
         </#if>
 
         <div>Subscription</div>
         <h3 class="card-text">
-            <a href="/user/subscriptions/${userChannel.id}/list">${subscriptionsCount}</a>
+            <a href="/subscriptions/${userChannel.id}/list">${subscriptionsCount}</a>
         </h3>
         <div>Subscribers</div>
         <h3>
-            <a href="/user/subscribers/${userChannel.id}/list">${subscribersCount}</a>
+            <a href="/subscribers/${userChannel.id}/list">${subscribersCount}</a>
         </h3>
         <h2>
             Role:
             <#if isAdmin>
                 Admin
+            <#elseif isCreator>
+                Company director
             <#elseif isHR>
                 HR
             <#else>
@@ -32,7 +34,7 @@
         </h2>
         <div>Password or email changing:</div>
         ${errorMessage?if_exists}
-        <form action="/user/profile/${userId}" method="post">
+        <form action="/user/${userId}" method="post">
             <div class="form-group row mt-2">
                 <label class="col-sm-2 col-form-label">Password:</label>
                 <div class="col-sm-4">
@@ -56,7 +58,7 @@
             <p></p>
         </form>
 
-        <#if !isHR || !isCreator || !isAdmin>
+        <#if isUser && !isHR && !isCreator && !isAdmin>
             <p>
                 <button class="btn btn-primary mt-2" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseExample"
@@ -65,10 +67,11 @@
                 </button>
             </p>
 
-            <div class="collapse <#if textError?? || messageLetter??>show</#if>" id="collapseExample">
-                <form action="/user/sendcoveringletter" method="post" enctype="multipart/form-data">
+            <div class="collapse <#if nameError?? || INNError?? || descriptionError?? || messageLetter??>show</#if>"
+                 id="collapseExample">
+                <form action="/createcompany" method="post" enctype="multipart/form-data">
                     <div class="input-group has-validation mb-3">
-                        <label class="col-sm-2 col-form-label">Password:</label>
+                        <label class="col-sm-2 col-form-label">Company name:</label>
                         <input class="form-control ${(nameError??)?string('is-invalid', '')}"
                                value="<#if name??>${company.name}</#if>" aria-label="Sizing example input"
                                aria-describedby="inputGroup-sizing-default" type="text" name="name"
@@ -91,17 +94,16 @@
                             </div>
                         </#if>
                     </div>
-
                     <div class="input-group has-validation mb-3">
-                        <label class="col-sm-2 col-form-label">Company info:</label>
-                        <textarea class="form-control  ${(textError??)?string('is-invalid', '')}"
-                                  value="<#if coveringLetter??>${coveringLetter.text}</#if>"
-                                  aria-describedby="inputGroup-sizing-default" type="text" name="text"
-                                  placeholder="Enter your covering letter about your job you are offering"
+                        <label class="col-sm-2 col-form-label">Company description:</label>
+                        <textarea class="form-control ${(descriptionError??)?string('is-invalid', '')}"
+                                  value="<#if company??>${company.description}</#if>"
+                                  aria-describedby="inputGroup-sizing-default" type="text" name="description"
+                                  placeholder="Description of company"
                                   aria-label="With textarea"></textarea>
-                        <#if textError??>
+                        <#if descriptionError??>
                             <div class="invalid-feedback">
-                                ${textError}
+                                ${descriptionError}
                             </div>
                         </#if>
                     </div>
@@ -116,9 +118,7 @@
         </#if>
 
         <#include "parts/vacancyEdit.ftlh">
-        <#if isHR>
-            <#include "parts/vacancyList.ftlh">
-        </#if>
+        <#include "parts/vacancyList.ftlh">
 
     </div>
 </@c.page>

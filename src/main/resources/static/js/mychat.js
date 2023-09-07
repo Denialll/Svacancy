@@ -1,24 +1,32 @@
 'use strict';
 
-// var usernamePage = document.querySelector('#userJoin');
-// var chatPage = document.querySelector('#chatPage');
-// var room = $('#room');
-// var name = $("#name").val().trim();
+var usernamePage = document.querySelector('#userJoin');
+var chatPage = document.querySelector('#chatPage');
+var room = $('#room');
+var name = $("#name").val().trim();
 var waiting = document.querySelector('.waiting');
 var roomIdDisplay = document.querySelector('#room-id-display');
 var chatBox = document.getElementById("msg_history");
-
-// const userJoinForm = document.getElementById('userJoinForm')
 
 var stompClient = null;
 var currentSubscription;
 var topic = null;
 var username;
 
+function connect(event) {
+    var name1 = $("#name").val().trim();
+    var chatRoom = $('#chatRoom');
+    Cookies.set('name', name1);
+    usernamePage.classList.add('d-none');
+    chatPage.classList.remove('d-none');
+    var socket = new SockJS('/sock');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, onConnected, onError);
+    event.preventDefault();
+}
 
-
-function onConnected(roomId, username) {
-    enterRoom(roomId, username);
+function onConnected() {
+    enterRoom(room.val());
     waiting.classList.add('d-none');
 }
 
@@ -26,14 +34,16 @@ function onError(error) {
     waiting.textContent = 'uh oh! service unavailable';
 }
 
-function enterRoom(newRoomId, username) {
+function enterRoom(newRoomId) {
+
     var roomId = newRoomId;
     console.log("ROOM ID: " + roomId);
-    Cookies.set('roomId', roomId);
+    Cookies.set('roomId', room);
     roomIdDisplay.textContent = roomId;
     topic = `/chat-app/chat/${newRoomId}`;
-    currentSubscription = stompClient.subscribe(`/chat-room/${newRoomId}`, onMessageReceived);
+    currentSubscription = stompClient.subscribe(`/chat-room/${roomId}`, onMessageReceived);
 
+    var username = $("#name").val().trim();
     stompClient.send(`${topic}/addUser`,
         {},
         JSON.stringify({sender: username})
@@ -99,44 +109,46 @@ function onMessageReceived(payload) {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-$(document).ready(function () {
-    // userJoinForm.addEventListener('submit', connect, true);
-
-    messagebox.addEventListener('submit', sendMessage, true);
-});
-
-// function connect(event) {
-//     var name1 = $("#name").val().trim();
-//     var chatRoom = $('#chatRoom');
-//     Cookies.set('name', name1);
-//     usernamePage.classList.add('d-none');
-//     chatPage.classList.remove('d-none');
-//     var socket = new SockJS('/sock');
-//     stompClient = Stomp.over(socket);
-//     stompClient.connect({}, onConnected, onError);
-//     event.preventDefault();
-// }
-
-function enterChat(roomId, username){
-    Cookies.set('name', username);
-    // usernamePage.classList.add('d-none');
-    // chatPage.classList.remove('d-none');
-    var socket = new SockJS('/sock');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, onConnected(roomId, username), onError);
-}
-
-// $(document).ready(function() {
-//     $("#userJoinForm").submit('submit', connect, true);
-//         messagebox.addEventListener('submit', sendMessage, true);
-
+// $(document).ready(function () {
+//     // console.log(userJoinForm);
+//     // console.log(form);
+//
+//     // for (let i = 0; i < userJoinForm.length; i++) {
+//     //     console.log(userJoinForm[i]);
+//     // }
+//
+//     // for (const form of userJoinForm) {
+//     //     const formm = document.getElementById(form);
+//     //     const elements = formm.elements();
+//     //     if(elements[0] == 22222) formm[0].addEventListener('submit', connect, true);
+//     // //     console.log("AAA");
+//     //     // console.log(elemts);
+//     //     // form.getAttribute(formm.value);
+//     //     // const room = document.getElementById("room");
+//     //     // console.log(form.getAttribute());
+//     //     // if (element.value == 22222) element.addEventListener('submit', connect, true);
+//     //     // userJoinForm[2].addEventListener('submit', connect, true);
+//     //     // console.log(element.value);
+//     // }
+//     // userJoinForm[0].addEventListener('submit', connect, true);
+//     messagebox.addEventListener('submit', sendMessage, true);
 // });
 
-// function passValue(value) {
-//     document.getElementById("valueDisplay").innerText = value;
-// }
-//
-// function openModal(value) {
-//     document.getElementById("valueDisplay").textContent = value;
-//     document.getElementById("myModal").style.display = "block";
-// }
+
+function enterChat(roomid, value1) {
+    console.log("BUTTON");
+    // userJoinForm.getElementById()
+
+    // Находим элемент формы с идентификатором "myForm"
+    const form = document.getElementById("userJoinForm");
+
+// Находим поле формы с идентификатором "myInput"
+    const room = document.getElementById("room");
+    room.value = roomid;
+// Находим поле формы с идентификатором "myInput"
+    const name = document.getElementById("name");
+    name.value = value1;
+
+    userJoinForm.addEventListener('submit', connect, true);
+    messagebox.addEventListener('submit', sendMessage, true);
+}

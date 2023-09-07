@@ -4,6 +4,7 @@ import com.example.svacancy.Model.util.MessageHelper;
 import com.example.svacancy.exception.RegistrationException.VacancyException.SalaryException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.HashSet;
@@ -25,6 +26,9 @@ public class Vacancy {
     @NotBlank(message = "Please enter a tag")
     @Length(max = 50, message = "Message too long (more than 2kB)")
     private String tag;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id")
+    private Company company;
 
     public String getSalary() {
         return salary;
@@ -35,6 +39,9 @@ public class Vacancy {
     }
 
     public void setSalaryFromTo(String salaryFrom, String salaryTo) {
+        if(salaryFrom.equals("")) salaryFrom = null;
+        if(salaryTo.equals("")) salaryTo = null;
+
         if (salaryFrom != null && salaryTo != null){
             if (Integer.parseInt(salaryFrom) >= Integer.parseInt(salaryTo)) {
                 throw new SalaryException("Salary is incorrect");
@@ -131,5 +138,13 @@ public class Vacancy {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }

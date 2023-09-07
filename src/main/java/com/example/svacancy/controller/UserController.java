@@ -1,7 +1,6 @@
 package com.example.svacancy.controller;
 
 import com.example.svacancy.Model.Company;
-import com.example.svacancy.Model.CoveringLetter;
 import com.example.svacancy.Model.User;
 import com.example.svacancy.Model.Vacancy;
 import com.example.svacancy.Model.dto.VacancyDto;
@@ -9,7 +8,6 @@ import com.example.svacancy.Model.enums.Role;
 import com.example.svacancy.exception.RegistrationException.EmailException;
 import com.example.svacancy.exception.RegistrationException.PermissionDeniedException;
 import com.example.svacancy.services.CompanyService;
-import com.example.svacancy.services.CoveringLetterService;
 import com.example.svacancy.services.UserService;
 import com.example.svacancy.services.VacancyService;
 import jakarta.validation.Valid;
@@ -23,33 +21,32 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final CoveringLetterService coveringLetterService;
     private final VacancyService vacancyService;
     private final CompanyService companyService;
-//    private final ControllerUtils controllerUtils;
 
     @PreAuthorize("hasAuthority('ADMIN')")//
-    @GetMapping
+    @GetMapping("/adminpanel")
     public String userList(Model model) {
 
         model.addAttribute("users", userService.findAll());
-        model.addAttribute("letters", coveringLetterService.getAllLetters());
+        model.addAttribute("companies", companyService.getAllCompanies());
 
-        return "userList";
+        return "adminpanel";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")//
-    @GetMapping("{user}")
+    @GetMapping("adminpanel/{user}")
     public String userEditForm(@PathVariable User user, Model model) {
 
         model.addAttribute("user", user);
@@ -59,17 +56,17 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")//
-    @PostMapping
+    @PostMapping("/adminpanel")
     public String userSave(@RequestParam String username,
                            @RequestParam Map<String, String> form,
                            @RequestParam("userId") User user) {
 
         userService.saveUser(user, username, form);
 
-        return "redirect:/user";
+        return "redirect:/adminpanel";
     }
 
-    @GetMapping("profile/{author}")
+    @GetMapping("userprofile/{author}")
     public String getProfile(
             Model model,
             @AuthenticationPrincipal User currentUser,
@@ -92,42 +89,7 @@ public class UserController {
         return "profile";
     }
 
-    @PostMapping("/sendcoveringletter")
-    public String sendCoveringLetter(
-            @AuthenticationPrincipal User currentUser,
-            @Valid CoveringLetter coveringLetter,
-            Company company,
-            BindingResult bindingResult,
-            Model model,
-            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
-    ) {
-        System.out.println(company);
-        Page<VacancyDto> page = vacancyService.vacancyListForUser(pageable, currentUser, currentUser);
-        model.addAttribute("page", page);
 
-        model.addAttribute("isCurrentUser", true);
-        model.addAttribute("userChannel", currentUser);
-        model.addAttribute("subscriptionsCount", currentUser.getSubscriptions().size());
-        model.addAttribute("subscribersCount", currentUser.getSubscribers().size());
-        model.addAttribute("isSubscriber", currentUser.getSubscribers().contains(currentUser));
-        model.addAttribute("username", currentUser.getUsername());
-        model.addAttribute("email", currentUser.getEmail());
-        model.addAttribute("url", "/user/profile/" + currentUser.getId());
-
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errorsMap = ControllerUtils.getErrorsMap(bindingResult);
-            model.mergeAttributes(errorsMap);
-
-            return "profile";
-        }
-
-        userService.sendHRLetter(currentUser, company, coveringLetter);
-
-        model.addAttribute("messageType", "success");
-        model.addAttribute("messageLetter", "Letter was successfully sending");
-
-        return "profile";
-    }
 
 //    @GetMapping("/profile/{author}")
 //    public String userMessages(
@@ -151,18 +113,22 @@ public class UserController {
 //        return "user/profile";
 //    }
 
-    @PostMapping("profile/{author}")
+    @PostMapping("user/{author}")
     public String updateProfile(
             @AuthenticationPrincipal User currentUser,
             @PathVariable(name = "author") User author,
             @RequestParam String password,
             @RequestParam String email,
-            Model model
+            Model model,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
     ) throws EmailException {
+        Page<VacancyDto> page = vacancyService.vacancyListForUser(pageable, currentUser, currentUser);
+        model.addAttribute("page", page);
+
         if(!author.equals(currentUser)) throw new PermissionDeniedException("Not enough rights!");
 
         model.addAttribute("isCurrentUser", author.equals(currentUser));
-//        model.addAttribute("userChannel", author);
+        model.addAttribute("userChannel", author);
         model.addAttribute("subscriptionsCount", author.getSubscriptions().size());
         model.addAttribute("subscribersCount", author.getSubscribers().size());
         model.addAttribute("isSubscriber", author.getSubscribers().contains(currentUser));
@@ -183,7 +149,7 @@ public class UserController {
     }
 
 
-    @GetMapping("userUpdate/{email}/{code}")
+    @GetMapping("user/userupdate/{email}/{code}")
     public String userUpdate(
             @PathVariable String code,
             @PathVariable String email,
@@ -233,7 +199,5 @@ public class UserController {
 
         return "subscriptions";
     }
-
-
 
 }

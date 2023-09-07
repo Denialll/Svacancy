@@ -33,7 +33,7 @@
             </div>
 
             <a class="col align-self-center"
-               href="/user/profile/${vacancy.author.id}"
+               href="/userprofile/${vacancy.author.id}"
             > ${vacancy.authorName}</a>
 
             <div class='btn-keeper'>
@@ -41,7 +41,7 @@
                 <a type="button" class="col btn btn-info"
                    href="/user-messages/${vacancy.author.id}?vacancy=${vacancy.id}"> Edit </a>
                 <#elseif isUser>
-
+                </#if>
                 <#--                <button type="button" class="btn btn-primary" data-bs-toggle="modal"-->
                 <#--                        data-bs-target="#staticBackdrop">-->
                 <#--                    Respond-->
@@ -121,13 +121,13 @@
             </div>
         </div>
 
+
+
+
         <#--        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"-->
         <#--             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">-->
         <#--            -->
         <#--        </div>-->
-        </#if>
-
-
     </div>
 
 <#else>

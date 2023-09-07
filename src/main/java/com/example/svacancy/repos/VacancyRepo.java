@@ -10,7 +10,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-//@EnableJpaRepositories
 @Repository
 public interface VacancyRepo extends CrudRepository<Vacancy, Long> {
     @Query("select new com.example.svacancy.Model.dto.VacancyDto(" +

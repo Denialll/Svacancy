@@ -34,8 +34,14 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Vacancy> respondedVacancies;
     private String activationCode;
-    @OneToOne
+//    @OneToOne
+//    private Company company;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id")
     private Company company;
+
+
 //    @OneToMany(cascade=CascadeType.ALL)
 //    private List<ChatRoom> chatRooms = new ArrayList<>();
 
@@ -43,19 +49,19 @@ public class User implements UserDetails {
 //        this.chatRooms.add(chatRoom);
 //    }
 
-//    private String job = "unemployed";
+    //    private String job = "unemployed";
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_subscriptions",
-            joinColumns = { @JoinColumn(name = "channel_id")},
-            inverseJoinColumns = { @JoinColumn(name = "subscriber_id")}
+            joinColumns = {@JoinColumn(name = "channel_id")},
+            inverseJoinColumns = {@JoinColumn(name = "subscriber_id")}
     )
     private Set<User> subscribers = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ChatRoom> chatRooms;
 
-    public void addChatRoom(ChatRoom chatRoom){
+    public void addChatRoom(ChatRoom chatRoom) {
         this.chatRooms.add(chatRoom);
     }
 
@@ -70,12 +76,12 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_subscriptions",
-            joinColumns = { @JoinColumn(name = "subscriber_id")},
-            inverseJoinColumns = { @JoinColumn(name = "channel_id")}
+            joinColumns = {@JoinColumn(name = "subscriber_id")},
+            inverseJoinColumns = {@JoinColumn(name = "channel_id")}
     )
     private Set<User> subscriptions = new HashSet<>();
 
-    public void addRespondedVacancy(Vacancy vacancy){
+    public void addRespondedVacancy(Vacancy vacancy) {
         this.respondedVacancies.add(vacancy);
     }
 
@@ -83,6 +89,15 @@ public class User implements UserDetails {
 //    private Set<ChatMessage> sendingMessages;
 //    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    private Set<ChatMessage> recMessages;
+
+    public Company getCompany() {
+        return this.company;
+    }
+
+    public boolean isCompanyActive() {
+        if(company == null) return false;
+        return this.company.getActive();
+    }
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -145,11 +160,24 @@ public class User implements UserDetails {
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }
-    public Boolean isCreator(){
+
+    public Boolean isCreator() {
         return roles.contains(Role.COMPANYCREATOR);
     }
-    public boolean isHR(){return  roles.contains(Role.HR);}
-    public boolean isUser(){return roles.contains(Role.USER);}
+
+    public boolean isHR() {
+        return roles.contains(Role.HR);
+    }
+
+    public boolean isUser() {
+        return roles.contains(Role.USER);
+    }
+
+    public boolean isEmployed(){
+        if(company != null) return true;
+        else return false;
+    }
+
     public Long getId() {
         return id;
     }

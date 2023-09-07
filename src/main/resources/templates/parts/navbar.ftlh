@@ -19,7 +19,7 @@
             </li>
             <#if username != "">
                 <li class="nav-item">
-                    <a class="nav-link text-white bg-dark" href="/user/profile/${userId}">Profile</a>
+                    <a class="nav-link text-white bg-dark" href="/userprofile/${userId}">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white bg-dark" href="/user-messages/${userId}">My messages</a>
@@ -27,10 +27,10 @@
             </#if>
             <#if isAdmin>
                 <li class="nav-item">
-                    <a class="nav-link text-white bg-dark" href="/user">User list</a>
+                    <a class="nav-link text-white bg-dark" href="/adminpanel">User list</a>
                 </li>
             </#if>
-            <#if isHR>
+            <#if isCompanyActive>
                 <li class="nav-item">
                     <a class="nav-link text-white bg-dark" href="/company/${userId}">Your company</a>
                 </li>

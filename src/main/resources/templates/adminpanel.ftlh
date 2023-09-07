@@ -20,7 +20,7 @@
                     <td>${user.email}</td>
                     <td><#list user.roles as role>${role}<#sep>, </#list></td>
                     <td>${user.id}</td>
-                    <td><a href="/user/${user.id}">edit</a></td>
+                    <td><a href="/adminpanel/${user.id}">edit</a></td>
                 </tr>
             </#list>
             </tbody>
@@ -46,9 +46,11 @@
                         <td>${company.description}</td>
                         <td>${company.creator.email}</td>
                         <td>
-                            <form>
-                                <button type="button" class="btn btn-success">Accept</button>
-                                <button type="button" class="btn btn-danger">Reject</button>
+                            <form action="/adminpanel/acceptCompany/${company.id}" method="post">
+                                <button type="submit" class="btn btn-success">Accept</button>
+                            </form>
+                            <form action="/adminpanel/rejectCompany/${company.id}" method="post">
+                                <button type="submit" class="btn btn-danger">Reject</button>
                             </form>
                         </td>
                     </tr>
@@ -57,5 +59,4 @@
             </tbody>
         </table>
     </div>
-
 </@c.page>

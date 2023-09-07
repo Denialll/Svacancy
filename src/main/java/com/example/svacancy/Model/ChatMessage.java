@@ -1,8 +1,10 @@
 package com.example.svacancy.Model;
 
-import com.example.svacancy.Model.User;
 import com.example.svacancy.Model.enums.MessageType;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -52,7 +54,7 @@ public class ChatMessage {
 
     public String getFormattedDate() {
         Date date = this.date;
-        if(date == null) return "";
+        if (date == null) return "";
         SimpleDateFormat sdf;
         String formattedTime = "";
 
@@ -81,7 +83,7 @@ public class ChatMessage {
         return formattedTime;
     }
 
-    public Date getDate(){
+    public Date getDate() {
         return this.date;
     }
 
