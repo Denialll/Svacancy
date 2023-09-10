@@ -31,7 +31,6 @@ public class ChatMessage {
     private String recipient;
     private Date date;
 
-
     public MessageType getMessageType() {
         return messageType;
     }

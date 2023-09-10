@@ -20,21 +20,21 @@
         <#include "parts/vacancyList.ftlh">
 
 
-        <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
-        <div class="toast-container position-fixed bottom-0 end-0 p-3 border-0 show">
-            <div id="liveToast" class="toast bg-primary" role="alert" aria-live="assertive" aria-atomic="true">
+<#--        <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>-->
+<#--        <div class="toast-container position-fixed bottom-0 end-0 p-3 border-0 show">-->
+<#--            <div id="liveToast" class="toast bg-primary" role="alert" aria-live="assertive" aria-atomic="true">-->
 
-                <div class="toast-body">
-                    Hello, world! This is a toast message.
-                </div>
-            </div>
-        </div>
+<#--                <div class="toast-body">-->
+<#--                    Hello, world! This is a toast message.-->
+<#--                </div>-->
+<#--            </div>-->
+<#--        </div>-->
 
     </div>
 </@c.page>
 
 <script>
-    const toastTrigger = document.getElementById('liveToastBtn')
+/*    const toastTrigger = document.getElementById('liveToastBtn')
     const toastLiveExample = document.getElementById('liveToast')
 
     if (toastTrigger) {
@@ -42,5 +42,5 @@
         toastTrigger.addEventListener('click', () => {
             toastBootstrap.show()
         })
-    }
+    }*/
 </script>

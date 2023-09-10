@@ -38,18 +38,17 @@
         <h2>Sorry! Your browser doesn't support Javascript</h2>
     </noscript>
 
-<#--    <div class="container">-->
-<#--        <div class="container_center">-->
-<#--            <#nested>-->
-<#--        </div>-->
-<#--    </div>-->
+    <#--    <div class="container">-->
+    <#--        <div class="container_center">-->
+    <#--            <#nested>-->
+    <#--        </div>-->
+    <#--    </div>-->
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-    <script src="/js/mychat.js"></script>
     </body>
+    <script src="https://kit.fontawesome.com/f097ef2d59.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous"></script>
     </html>
 </#macro>

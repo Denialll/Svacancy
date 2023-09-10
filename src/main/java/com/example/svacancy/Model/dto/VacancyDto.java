@@ -75,5 +75,4 @@ public class VacancyDto {
         return MessageHelper.getAuthorName(this.author);
     }
 
-
 }

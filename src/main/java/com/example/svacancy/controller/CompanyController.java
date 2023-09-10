@@ -4,7 +4,6 @@ import com.example.svacancy.Model.Company;
 import com.example.svacancy.Model.User;
 import com.example.svacancy.Model.Vacancy;
 import com.example.svacancy.Model.dto.VacancyDto;
-import com.example.svacancy.repos.VacancyRepo;
 import com.example.svacancy.services.CompanyService;
 import com.example.svacancy.services.VacancyService;
 import jakarta.validation.Valid;
@@ -31,7 +30,6 @@ public class CompanyController {
 
     private final CompanyService companyService;
     private final VacancyService vacancyService;
-    private final VacancyRepo vacancyRepo;
 
     @GetMapping("company/{companyId}")
     public String getCompany(
@@ -42,7 +40,7 @@ public class CompanyController {
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
     ) {
         User creator = company.getCreator();
-        Page<VacancyDto> page = vacancyRepo.findByCompany(pageable, creator.getCompany(), currentUser);
+        Page<VacancyDto> page = vacancyService.findByCompany(pageable, creator.getCompany(), currentUser);
 
         model.addAttribute("page", page);
         model.addAttribute("vacancy", vacancy);
@@ -106,6 +104,19 @@ public class CompanyController {
 
         return "redirect:/adminpanel";
     }
+
+//    @PreAuthorize("hasAuthority('HR')")
+//    @GetMapping("/company/vacancy/{vacancy}")
+//    public String getCompanyVacancy(
+//            Model model,
+//            @PathVariable(name = "vacancy") Vacancy vacancy,
+//            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
+//            ) {
+//        Page<User> page = userRepo.findByVacancy(pageable, vacancy.getId());
+//        System.out.println("AAAAAAAAAAAAAAA: " + page.getContent().get(0).getUsername());
+//
+//        return "/vacancy";
+//    }
 
 //    @PreAuthorize("hasAuthority('COMPANYCREATOR')")
 //    @PostMapping("/removeEmploy/{employId}")

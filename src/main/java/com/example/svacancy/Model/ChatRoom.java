@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Getter
@@ -26,6 +27,18 @@ public class ChatRoom {
 
     public void addChatMessage(ChatMessage chatMessage) {
         this.chatMessages.add(chatMessage);
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChatRoom chatRoom = (ChatRoom) o;
+        return chatId.equals(chatRoom.chatId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(chatId);
     }
 
     @Override

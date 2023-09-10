@@ -1,7 +1,9 @@
 <#import "parts/common.ftlh" as c>
+<#import "parts/vacancyEdit.ftlh" as edit>
 <#include "parts/security.ftlh">
 
 <@c.page>
+
     <div class="container md-5 mt-5">
         <h3>${userChannel.username}</h3>
         <#if !isCurrentUser>
@@ -117,8 +119,14 @@
             </div>
         </#if>
 
-        <#include "parts/vacancyEdit.ftlh">
+<#--        <#if isCurrentUser>-->
+<#--        </#if>-->
+<#--        <#include "parts/vacancyEdit.ftlh" "/vacancyCreate">-->
+
+            <@edit.vacancyEdit "/vacancyCreate"/>
         <#include "parts/vacancyList.ftlh">
 
     </div>
+
+
 </@c.page>

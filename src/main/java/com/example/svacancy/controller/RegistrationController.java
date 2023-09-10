@@ -42,19 +42,16 @@ public class RegistrationController {
             BindingResult bindingResult,
             Model model
     ) {
-        //model.put("_csrf", csrfToken);
         String url = String.format(CAPTCHA_URL, secret, captchaResponse);
         CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);
 
-        if (!response.success()) {
-            model.addAttribute("captchaError", "Fill captcha");
-        }
+        if (!response.success()) model.addAttribute("captchaError", "Fill captcha");
+
 
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
 
-        if (isConfirmEmpty) {
-            model.addAttribute("password2Error", "Password confirmation cannot be empty");
-        }
+        if (isConfirmEmpty) model.addAttribute("password2Error", "Password confirmation cannot be empty");
+
 
         if (!user.getPassword().equals(passwordConfirm)) {
             model.addAttribute("passwordError", "Password are different");
@@ -75,7 +72,9 @@ public class RegistrationController {
     }
 
     @GetMapping("/forgot-password")
-    public String forgotPassword() {return "forgot-password";}
+    public String forgotPassword() {
+        return "forgot-password";
+    }
 
     @PostMapping("/forgot-password")
     public String sendEmail(
@@ -85,6 +84,7 @@ public class RegistrationController {
         if ("".equals(email)) throw new EmailException("Email can't be empty.");
 
         userService.passwordRecovery(email);
+
         model.addAttribute("MessageForUser", true);
 
         return "forgot-password";
@@ -129,9 +129,5 @@ public class RegistrationController {
         return "login";
     }
 
-    @PostMapping("/hr-registration")
-    public String hrRegistration(){
-        return "/hr-registration";
-    }
 }
 

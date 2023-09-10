@@ -3,6 +3,8 @@ package com.example.svacancy.services;
 import com.example.svacancy.Model.*;
 import com.example.svacancy.Model.dto.VacancyDto;
 import com.example.svacancy.exception.RegistrationException.VacancyException.RespondVacancyException;
+import com.example.svacancy.repos.ChatRoomRepo;
+import com.example.svacancy.repos.UserRepo;
 import com.example.svacancy.repos.VacancyRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -20,8 +23,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VacancyService {
     private final VacancyRepo vacancyRepo;
+    private final UserRepo userRepo;
     @Value("${upload.path}")
     private String uploadPath;
+    private final ChatRoomRepo chatRoomRepo;
 
     public void saveFile(Vacancy vacancy, MultipartFile file) throws IOException {
         if (file != null && !file.getOriginalFilename().isEmpty()) {
@@ -56,7 +61,9 @@ public class VacancyService {
     public Page<VacancyDto> findAll(Pageable pageable, User currentUser) {
         return vacancyRepo.findAll(pageable, currentUser);
     }
-
+    public Page<VacancyDto> findByCompany(Pageable pageable, Company company, User currentUser){
+        return vacancyRepo.findByCompany(pageable, company, currentUser);
+    }
     public Vacancy findById(String id){
         return vacancyRepo.findById(id);
     }
@@ -65,14 +72,14 @@ public class VacancyService {
         Vacancy vacancy = vacancyRepo.findById(currentVacancyId);
 
 //        if(user.getRespondedVacancies().contains(vacancy)) throw new RespondVacancyException("You have already respond on this vacancy");
-
+        chatMessage.setDate(new Date());
         chatRoom.addChatMessage(chatMessage);
         user.addChatRoom(chatRoom);
 //        user.addRespondedVacancy(vacancy);
         vacancy.addNumberOfResponded(user);
-
-        vacancyRepo.save(vacancy);
-//        userService.saveUser(user);
+        chatRoomRepo.save(chatRoom);
+//        vacancyRepo.save(vacancy);
+        userRepo.save(user);
     }
 
     public void saveVacancy(User currentUser, String salaryFrom, String salaryTo, Vacancy vacancy, MultipartFile file) throws IOException {

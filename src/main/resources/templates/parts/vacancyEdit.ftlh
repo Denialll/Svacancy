@@ -1,7 +1,7 @@
 <#include "security.ftlh">
 <#macro vacancyEdit path>
 
-    <#if isHR>
+<#--    <#if isHR>-->
         <p>
             <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse"
                     data-bs-target="#collapseExample"
@@ -77,5 +77,5 @@
             </form>
         </div>
 
-    </#if>
+<#--    </#if>-->
 </#macro>

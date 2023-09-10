@@ -14,55 +14,6 @@
 </head>
 
 <@c.page>
-
-<#--<#list chatRooms as chatRoom>-->
-<#--&lt;#&ndash;            <#list chatRoom.chatMessages as chatMessage>&ndash;&gt;-->
-<#--&lt;#&ndash;                <ul>${chatMessage.content}</ul>&ndash;&gt;-->
-<#--&lt;#&ndash;            </#list>&ndash;&gt;-->
-<#--    <div id="userJoin" class="container">-->
-<#--        <form id="userJoinForm" name="userJoinForm">-->
-<#--            <input type="hidden" id="room" value="${chatRoom.chatId!""}">-->
-<#--            <input type="hidden" id="name" value="${username}">-->
-<#--            <button type="submit" class="btn btn-primary">Enter chat</button>-->
-<#--        </form>-->
-<#--    </div>-->
-<#--</#list>-->
-
-
-<#--<div id="chatPage" class="container d-none">-->
-<#--    <div class="chat-header">-->
-<#--        <h2>Chatroom [<span id="room-id-display"></span>]</h2>-->
-<#--    </div>-->
-<#--    <div class="waiting">-->
-<#--        We are waiting to enter the room.-->
-<#--    </div>-->
-<#--    <div class="card">-->
-<#--        <div class="card-body">-->
-<#--            <#list chatRooms as chatRoom>-->
-<#--                <#list chatRoom.chatMessages as chatMessage>-->
-<#--                    <ul>-->
-<#--                        <li>   ${chatMessage.content}</li>-->
-<#--                        <li>   ${chatMessage.sender}</li>-->
-
-<#--                    </ul>-->
-<#--                </#list>-->
-<#--            </#list>-->
-<#--            <ul id="messageArea">-->
-<#--        </div>-->
-<#--    </div>-->
-
-
-<#--    </ul>-->
-<#--    <form id="messagebox" name="messagebox">-->
-<#--        <div class="form-group">-->
-<#--            <label for="message">Enter Message:</label>-->
-<#--            <input type="text" class="form-control" id="message" aria-describedby="name"-->
-<#--                   placeholder="Enter message to chat ....">-->
-<#--        </div>-->
-<#--        <button type="submit" class="btn btn-primary">Send</button>-->
-<#--    </form>-->
-<#--</div>-->
-
 <div class="container">
     <div class="messaging">
         <div class="inbox_msg">
@@ -80,44 +31,22 @@
                     </div>
                 </div>
                 <div class="inbox_chat">
-                    <div class="chat_list active_chat">
-                        <div class="chat_people">
-<#--                                                        <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"-->
-<#--                                                                                   alt="sunil"></div>-->
-<#--                                                        <div class="chat_ib">-->
-<#--                                                            <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>-->
-<#--                                                            <p>Test, which is a new approach to have all solutions-->
-<#--                                                                astrology under one roof.</p>-->
-<#--                                                        </div>-->
-<#--                                                        <#list chatRooms as chatRoom>-->
-<#--                                                            <div id="userJoin" class="container">-->
-<#--                                                                <form id="userJoinForm" name="userJoinForm">-->
-<#--                                                                    <input type="hidden" id="room" value="${chatRoom.chatId!""}">-->
-<#--                                                                    <input type="hidden" id="name" value="${username}">-->
-<#--                                                                    <button type="submit" class="btn btn-primary">Enter chat</button>-->
-<#--                                                                </form>-->
-<#--                                                            </div>-->
-<#--                                                        </#list>-->
-
-                            <button onclick="enterChat('11111', 'lola')">AAAAA</button>
-
-                            <div id="userJoin" class="container">
-                                <form id="userJoinForm" name="userJoinForm">
-                                    <input type="hidden" id="room" value="22222">
-                                    <input type="hidden" id="name" value="22222">
-                                    <button type="submit" class="btn btn-primary">Enter chat</button>
-                                </form>
+                    <#list chatRooms as chatRoom>
+                        <div class="chat_list active_chat">
+                            <div class="chat_people"
+                                 onclick="enterChat(${chatRoom.chatId}, ${username})">
+                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
+                                                           alt="sunil"></div>
+                                <div class="chat_ib">
+                                    <h5>${username}<span
+                                                class="chat_date">${chatRoom.chatMessages?last.getFormattedDate()}</span>
+                                    </h5>
+                                    <p>${chatRoom.chatMessages?last.content}</p>
+                                </div>
                             </div>
-                            <div id="userJoin" class="container">
-                                <form id="userJoinForm" name="userJoinForm">
-                                    <input type="hidden" id="room" value="11111">
-                                    <input type="hidden" id="name" value="11111">
-                                    <button type="submit" class="btn btn-primary">Enter chat</button>
-                                </form>
-                            </div>
-
                         </div>
-                    </div>
+                    </#list>
+
                     <div class="chat_list">
                         <div class="chat_people">
                             <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
@@ -146,8 +75,8 @@
                             <div class="waiting">
                                 We are waiting to enter the room.
                             </div>
-
                             <#list chatRooms as chatRoom>
+
                                 <#list chatRoom.chatMessages as chatMessage>
 
                                 <#--                                    ${chatMessage.sender}-->
@@ -159,6 +88,7 @@
                                         </div>
                                     </div>
                                 </#list>
+
                             </#list>
                             <div class="incoming_msg">
                                 <div class="incoming_msg_img"><img
@@ -198,7 +128,6 @@
                 </div>
             </div>
         </div>
-
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>

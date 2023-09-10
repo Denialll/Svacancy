@@ -28,6 +28,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.thymeleaf.util.StringUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
@@ -106,29 +107,6 @@ public class VacancyController {
         return "main";
     }
 
-
-    @GetMapping("/user-messages/{author}")
-    public String userMessages(
-            @AuthenticationPrincipal User currentUser,
-            @PathVariable(name = "author") User author,
-            Model model,
-            @RequestParam(required = false) Vacancy vacancy,
-            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
-    ) {
-        Page<VacancyDto> page = vacancyService.vacancyListForUser(pageable, currentUser, author);
-        model.addAttribute("chatRooms", chatRoomRepo.findAll());
-        //        model.addAttribute("userChannel", author);
-//        model.addAttribute("subscriptionsCount", author.getSubscriptions().size());
-//        model.addAttribute("subscribersCount", author.getSubscribers().size());
-//        model.addAttribute("isSubscriber", author.getSubscribers().contains(currentUser));
-//        model.addAttribute("page", page);
-//        model.addAttribute("vacancy", vacancy);
-//        model.addAttribute("isCurrentUser", author.equals(currentUser));
-//        model.addAttribute("url", "/user-messages/" + author.getId());
-
-        return "userMessages";
-    }
-
 //    @GetMapping("/user-messages/{author}")
 //    public String userMessages(
 //            @AuthenticationPrincipal User currentUser,
@@ -136,10 +114,10 @@ public class VacancyController {
 //            Model model,
 //            @RequestParam(required = false) Vacancy vacancy,
 //            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
-//    ){
-//        Page<MessageDto> page = vacancyService.messageListForUser(pageable, currentUser, author);
-//
-////        model.addAttribute("userChannel", author);
+//    ) {
+//        Page<VacancyDto> page = vacancyService.vacancyListForUser(pageable, currentUser, author);
+//        model.addAttribute("chatRooms", chatRoomRepo.);
+//        //        model.addAttribute("userChannel", author);
 ////        model.addAttribute("subscriptionsCount", author.getSubscriptions().size());
 ////        model.addAttribute("subscribersCount", author.getSubscribers().size());
 ////        model.addAttribute("isSubscriber", author.getSubscribers().contains(currentUser));
@@ -151,7 +129,29 @@ public class VacancyController {
 //        return "userMessages";
 //    }
 
-    @PostMapping("/user-messages/{user}")
+//    @GetMapping("/userprofile/{author}")
+//    public String userMessages(
+//            @AuthenticationPrincipal User currentUser,
+//            @PathVariable(name = "author") User author,
+//            Model model,
+//            @RequestParam(required = false) Vacancy vacancy,
+//            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
+//    ){
+//        Page<VacancyDto> page = vacancyService.vacancyListForUser(pageable, currentUser, author);
+//
+//        model.addAttribute("userChannel", author);
+//        model.addAttribute("subscriptionsCount", author.getSubscriptions().size());
+//        model.addAttribute("subscribersCount", author.getSubscribers().size());
+//        model.addAttribute("isSubscriber", author.getSubscribers().contains(currentUser));
+//        model.addAttribute("page", page);
+//        model.addAttribute("vacancy", vacancy);
+//        model.addAttribute("isCurrentUser", author.equals(currentUser));
+//        model.addAttribute("url", "/user-messages/" + author.getId());
+//
+//        return "userprofile";
+//    }
+
+    @PostMapping("/userprofile/{user}")
     public String updateMessage(
             @AuthenticationPrincipal User currentUser,
             @PathVariable(name = "user") Long user,
@@ -174,7 +174,7 @@ public class VacancyController {
             vacancyService.save(vacancy);
         }
 
-        return "redirect:/user-messages/" + user;
+        return "redirect:/userprofile/" + user;
     }
 
     @GetMapping("/messages/{vacancy}/like")
@@ -224,21 +224,5 @@ public class VacancyController {
 
         return "main";
     }
-//    @PostMapping("/filter")
-//    public String filter(@RequestParam String filter, Map<String, Object> model, CsrfToken csrfToken) {
-//        model.put("_csrf", csrfToken);
-//        Iterable<Message> messages;
-//
-//        if (filter != null && !filter.isEmpty()) {
-//            messages = messageRepo.findByTag(filter);
-//        } else {
-//            messages = messageRepo.findAll();
-//        }
-//
-//        model.put("messages", messages);
-//
-//        return "main";
-//    }
-
 
 }

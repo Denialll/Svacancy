@@ -3,7 +3,6 @@ package com.example.svacancy.controller.advice;
 
 import com.example.svacancy.Model.User;
 import com.example.svacancy.Model.dto.VacancyDto;
-import com.example.svacancy.exception.RegistrationException.EmailException;
 import com.example.svacancy.exception.RegistrationException.VacancyException.SalaryException;
 import com.example.svacancy.services.VacancyService;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +31,9 @@ public class VacancyControllerAdvice {
                                         @RequestParam(required = false) String filter,
                                         @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
                                         CsrfToken csrfToken,
-                                        @AuthenticationPrincipal User currentUser){
+                                        @AuthenticationPrincipal User currentUser) {
         e.printStackTrace();
+
         model.addAttribute("_csrf", csrfToken);
 
         Page<VacancyDto> page = vacancyService.messageList(filter, pageable, currentUser);
@@ -42,7 +42,7 @@ public class VacancyControllerAdvice {
         model.addAttribute("url", "/main");
         model.addAttribute("filter", filter);
         model.addAttribute("salaryError", e.getMessage());
-        log.error("Salary exception");
+
         return "main";
     }
 

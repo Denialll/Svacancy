@@ -2,7 +2,7 @@
 <#if known>
     <#assign user = SPRING_SECURITY_CONTEXT.authentication.principal
     username = user.getUsername()
-    chatMessages = user.getChatRooms()
+<#--    chatMessages = user.getChatRooms()-->
     isActive = user.isActive()
     isCompanyActive = user.isCompanyActive()
     isAdmin = user.isAdmin()

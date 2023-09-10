@@ -1,7 +1,8 @@
 /*---------chat window---------------*/
-.container{
-    max-width:900px;
+.container {
+    max-width: 900px;
 }
+
 .inbox_people {
     background: #fff;
     float: left;
@@ -102,6 +103,7 @@
 }
 
 .chat_ib {
+    cursor: pointer;
     float: left;
     padding: 0 0 0 15px;
     width: 88%;
@@ -113,9 +115,19 @@
 }
 
 .chat_list {
+    cursor: pointer;
     border-bottom: 1px solid #ddd;
     margin: 0;
     padding: 18px 16px 10px;
+}
+
+.chat_list:hover {
+    transition: background-color 0.3s ease;
+    background: #e8f6ff;
+}
+.chat_list:not(hover) {
+    transition: background-color 0.3s ease;
+    background: white;
 }
 
 .inbox_chat {
@@ -165,14 +177,14 @@
     width: 57%;
 }
 
-.mesgs{
+.mesgs {
     float: left;
     padding: 30px 15px 0 25px;
-    width:70%;
+    width: 70%;
 }
 
 .sent_msg p {
-    background:#0465ac;
+    background: #0465ac;
     border-radius: 12px 15px 15px 0;
     font-size: 14px;
     margin: 0;
@@ -199,7 +211,7 @@
     font-size: 15px;
     min-height: 48px;
     width: 100%;
-    outline:none;
+    outline: none;
 }
 
 .type_msg {
@@ -209,16 +221,20 @@
 
 .msg_send_btn {
     background: #05728f none repeat scroll 0 0;
-    border:none;
+    border: none;
     border-radius: 50%;
     color: #fff;
-    cursor: pointer;
     font-size: 15px;
     height: 33px;
     position: absolute;
     right: 0;
     top: 11px;
     width: 33px;
+}
+
+.msg_send_btn:hover {
+    transition: background 0.3s ease; /* Добавим плавный переход для плавности изменений */
+    background: #e8f6ff;
 }
 
 .messaging {

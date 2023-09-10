@@ -29,8 +29,6 @@ public class Vacancy {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;
-
-
     @OneToMany(fetch = FetchType.EAGER)
     private Set<User> numberOfResponded = new HashSet<>();
 

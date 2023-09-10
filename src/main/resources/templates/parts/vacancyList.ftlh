@@ -2,13 +2,13 @@
 <#import "pager.ftlh" as p>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <#--    <meta charset="utf-8">-->
+    <#--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
     <link rel="stylesheet" href="/static/css/vacancy-card.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <title>Hello, world!</title>
+    <#--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+    <#--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+    <#--    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet">-->
+    <#--    <title>Hello, world!</title>-->
 </head>
 
 <@p.pager url page/>
@@ -32,21 +32,19 @@
                 ${vacancy.tag}
             </div>
 
-            <a class="col align-self-center"
+            <a class="col align-self-center" onclick="event.stopPropagation();"
                href="/userprofile/${vacancy.author.id}"
             > ${vacancy.authorName}</a>
 
             <div class='btn-keeper'>
                 <#if vacancy.author.id == userId && isHR>
-                    <a type="button" class="col btn btn-info"
-                       href="/user-messages/${vacancy.author.id}?vacancy=${vacancy.id}"> Edit </a>
+                <#--                    <a type="button" class="col btn btn-info"-->
+                <#--                       href="/company/vacancy/${vacancy.id}"> Check responses</a>-->
+                    <a type="button" class="col btn btn-info" onclick="event.stopPropagation();"
+                       href="/userprofile/${vacancy.author.id}?vacancy=${vacancy.id}"> Edit </a>
                 <#elseif isUser>
                 </#if>
-                <#--                <button type="button" class="btn btn-primary" data-bs-toggle="modal"-->
-                <#--                        data-bs-target="#staticBackdrop">-->
-                <#--                    Respond-->
-                <#--                </button>-->
-                <a class="col align-self-center" href="/messages/${vacancy.id}/like">
+                <a class="col align-self-center" href="/messages/${vacancy.id}/like" onclick="event.stopPropagation();">
                     <#if vacancy.meLiked>
                         <i class="fas fa-heart"></i>
                     <#else>
@@ -89,29 +87,6 @@
                                 Respond
                             </button>
                         </form>
-
-                        <div id="chatPage" class="container d-none">
-                            <div class="chat-header">
-                                <h2>Chatroom [<span id="room-id-display"></span>]</h2>
-                            </div>
-                            <div class="waiting">
-                                We are waiting to enter the room.
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <ul id="messageArea"></ul>
-                                </div>
-                            </div>
-                            <form id="messagebox" name="messagebox">
-                                <div class="form-group">
-                                    <label for="message">Enter Message:</label>
-                                    <input type="text" class="form-control" id="message"
-                                           aria-describedby="name"
-                                           placeholder="Enter message to chat ....">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Send</button>
-                            </form>
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
@@ -120,12 +95,6 @@
                 </div>
             </div>
         </div>
-
-
-        <#--        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"-->
-        <#--             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">-->
-        <#--            -->
-        <#--        </div>-->
     </div>
 
 <#else>
@@ -133,24 +102,11 @@
 </#list>
 
 <script>
-    // Находим карточку по ее идентификатору
     function openWindow() {
-        // Устанавливаем обработчик события клика на карточку
-        // Находим модальное окно по его идентификатору
         const modal = document.getElementById('staticBackdrop');
-        // Открываем модальное окно
         const myModal = new bootstrap.Modal(modal);
         myModal.show();
     }
-
-
 </script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-        crossorigin="anonymous"></script>
 
 <@p.pager url page/>

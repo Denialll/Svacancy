@@ -14,29 +14,37 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class UserControllerAdvice {
 
     @ExceptionHandler(EmailException.class)
-    public String handleEmailException(EmailException e, Model model){
+    public String handleEmailException(EmailException e, Model model) {
         e.printStackTrace();
+
         model.addAttribute("emailError", e.getMessage());
+
         String methodWithException = e.getStackTrace()[0].getMethodName();
-        log.info(methodWithException);
-        if(methodWithException.equals("updateProfile")) return "profile";
-        if(methodWithException.equals("sendEmail") || methodWithException.equals("passwordRecovery")) return "forgot-password";
-        return  "registration";
+
+        if (methodWithException.equals("updateProfile")) return "profile";
+        if (methodWithException.equals("sendEmail") || methodWithException.equals("passwordRecovery"))
+            return "forgot-password";
+
+        return "registration";
     }
 
     @ExceptionHandler(UsernameException.class)
-    public String handleUsernameException(UsernameException e, Model model){
+    public String handleUsernameException(UsernameException e, Model model) {
         e.printStackTrace();
+
         model.addAttribute("usernameError", e.getMessage());
-        return  "registration";
+
+        return "registration";
     }
 
     @ExceptionHandler(ActivationCodeException.class)
-    public String handleActivationCodeException(ActivationCodeException e, Model model){
+    public String handleActivationCodeException(ActivationCodeException e, Model model) {
         e.printStackTrace();
+
         model.addAttribute("messageType", "danger");
         model.addAttribute("message", e.getMessage());
-        return  "registration";
+
+        return "registration";
     }
 
 }
