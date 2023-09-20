@@ -13,7 +13,4 @@ public interface CompanyRepo extends CrudRepository<Company, Long> {
     Optional<Company> findById(Long id);
     @Query("SELECT c FROM Company c WHERE c.active = false")
     List<Company> findAll();
-
-
-
 }

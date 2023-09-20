@@ -119,11 +119,7 @@
             </div>
         </#if>
 
-<#--        <#if isCurrentUser>-->
-<#--        </#if>-->
-<#--        <#include "parts/vacancyEdit.ftlh" "/vacancyCreate">-->
-
-            <@edit.vacancyEdit "/vacancyCreate"/>
+        <@edit.vacancyEdit "/vacancyCreate"/>
         <#include "parts/vacancyList.ftlh">
 
     </div>

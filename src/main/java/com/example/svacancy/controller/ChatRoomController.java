@@ -51,17 +51,6 @@ public class ChatRoomController {
         chatRoom.addChatMessage(chatMessage);
         chatRoomRepo.save(chatRoom);
 
-//        try {
-//            Long idd = Long.valueOf(roomId);
-//            System.out.println(chatMessage.getId());
-//            chatRoomRepo.insertChatMessageInChatRoom(idd, chatMessage.getId());
-//        } catch (Exception e) {
-//            ChatRoom chatRoom = new ChatRoom();
-//            chatRoom.setChatId(roomId);
-//            chatRoom.addChatMessage(chatMessage);
-//            chatRoomRepo.save(chatRoom);
-//        }
-
         logger.info(roomId + " Chat message recieved is " + chatMessage.getContent());
         messagingTemplate.convertAndSend(format("/chat-room/%s", roomId), chatMessage);
     }

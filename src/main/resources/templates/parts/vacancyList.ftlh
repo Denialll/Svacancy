@@ -2,20 +2,14 @@
 <#import "pager.ftlh" as p>
 
 <head>
-    <#--    <meta charset="utf-8">-->
-    <#--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
     <link rel="stylesheet" href="/static/css/vacancy-card.css">
-    <#--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
-    <#--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
-    <#--    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet">-->
-    <#--    <title>Hello, world!</title>-->
 </head>
 
 <@p.pager url page/>
 
 <#list page.content as vacancy>
     <div class="col data-id=${vacancy.id}">
-        <div class="cardd" onclick="openWindow()">
+        <div class="cardd" onclick="openWindow(${vacancy.id})">
             <#if vacancy.filename??>
                 <img class="card-img-top" src="/img/${vacancy.filename}">
             </#if>
@@ -44,7 +38,8 @@
                        href="/userprofile/${vacancy.author.id}?vacancy=${vacancy.id}"> Edit </a>
                 <#elseif isUser>
                 </#if>
-                <a class="col align-self-center" href="/messages/${vacancy.id}/like" onclick="event.stopPropagation();">
+                <a class="col align-self-center" href="/messages/${vacancy.id}/like" onclick="event.stopPropagation();"
+                   style="text-decoration: none;">
                     <#if vacancy.meLiked>
                         <i class="fas fa-heart"></i>
                     <#else>
@@ -79,7 +74,7 @@
                                     ${contentError}
                                 </div>
                             </#if>
-                            <#assign roomId = "" + userId + vacancy.author.id>
+                            <#assign roomId = "" + userId + vacancy.id>
                             <input type="hidden" name="currentVacancyId" value="${vacancy.id}"/>
                             <input type="hidden" name="sender" value="${username}"/>
                             <input type="hidden" name="chatId" value="${roomId}"/>
@@ -102,7 +97,11 @@
 </#list>
 
 <script>
-    function openWindow() {
+    function openWindow(vacancyid) {
+        <#if isHR>
+        window.location.href = 'company/vacancy/' + vacancyid;
+        return;
+        </#if>
         const modal = document.getElementById('staticBackdrop');
         const myModal = new bootstrap.Modal(modal);
         myModal.show();

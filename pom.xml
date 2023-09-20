@@ -11,7 +11,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>sportmenu</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sportmenu</name>
+	<name>svacancy</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
@@ -56,13 +56,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
-		<!-- RabbitMQ Starter Dependency -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
-
-		<!-- Following additional dependency is required for Full Featured STOMP Broker Relay -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-reactor-netty</artifactId>

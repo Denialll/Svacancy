@@ -1,4 +1,4 @@
-package com.example.sportmenu;
+package com.example.svacancy;
 
 import com.example.svacancy.controller.VacancyController;
 import org.junit.jupiter.api.Test;

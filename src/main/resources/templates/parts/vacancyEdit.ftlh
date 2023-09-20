@@ -1,7 +1,7 @@
 <#include "security.ftlh">
 <#macro vacancyEdit path>
 
-<#--    <#if isHR>-->
+    <#if isHR>
         <p>
             <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse"
                     data-bs-target="#collapseExample"
@@ -43,7 +43,7 @@
                     <input class="form-control ${(salaryError??)?string('is-invalid', '')}"
                            value="<#if vacancy??>${vacancy.salary}</#if>" aria-label="Sizing example input"
                            aria-describedby="inputGroup-sizing-default" type="text" name="salaryFrom"
-                           />
+                    />
                     <#if salaryError??>
                         <div class="invalid-feedback">
                             ${salaryError}
@@ -70,12 +70,10 @@
                     <input class="form-control" aria-label="Sizing example input"
                            aria-describedby="inputGroup-sizing-default" id="customFile"
                            type="file" name="file"/>
-                    <#--            <label class="custom-file-label" for="customFile">Choose file</label>-->
                 </div>
                 <input type="hidden" name="id" value="<#if vacancy??>${vacancy.id}<#else>0</#if>"/>
                 <button type="submit" class="btn btn-info">Save vacancy</button>
             </form>
         </div>
-
-<#--    </#if>-->
+    </#if>
 </#macro>

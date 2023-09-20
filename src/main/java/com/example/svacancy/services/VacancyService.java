@@ -71,15 +71,16 @@ public class VacancyService {
     public void respondVacancy(User user, String currentVacancyId, ChatRoom chatRoom, ChatMessage chatMessage){
         Vacancy vacancy = vacancyRepo.findById(currentVacancyId);
 
-//        if(user.getRespondedVacancies().contains(vacancy)) throw new RespondVacancyException("You have already respond on this vacancy");
         chatMessage.setDate(new Date());
         chatRoom.addChatMessage(chatMessage);
-        user.addChatRoom(chatRoom);
-//        user.addRespondedVacancy(vacancy);
-        vacancy.addNumberOfResponded(user);
+        chatRoom.setVacancy(vacancy);
+        chatRoom.setUser(user);
         chatRoomRepo.save(chatRoom);
+//        user.addChatRoom(chatRoom);
+//        vacancy.addChatRoom(chatRoom);
+
 //        vacancyRepo.save(vacancy);
-        userRepo.save(user);
+//        userRepo.save(user);
     }
 
     public void saveVacancy(User currentUser, String salaryFrom, String salaryTo, Vacancy vacancy, MultipartFile file) throws IOException {

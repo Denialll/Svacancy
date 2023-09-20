@@ -15,5 +15,4 @@
             <button type="submit">Save</button>
         </form>
     </div>
-
 </@c.page>

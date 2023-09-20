@@ -7,7 +7,7 @@
 /*    font-family: "Poppins", sans-serif;*/
 /*}*/
 
-body-login-register{
+body-login-register {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,6 +20,7 @@ body-login-register{
     background-size: cover;
     background-position: center;
 }
+
 /*@keyframes color {*/
 /*    0%{*/
 /*        background-position: 0 50%;*/
@@ -32,10 +33,10 @@ body-login-register{
 /*    }*/
 /*}*/
 
-.wrapper{
+.wrapper {
     width: 420px;
     background: transparent;
-    border: 2px solid rgba(255,255,255,.2);
+    border: 2px solid rgba(255, 255, 255, .2);
     backdrop-filter: blur(20px);
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
     color: #fff;
@@ -44,19 +45,19 @@ body-login-register{
     transform: scale(0.8);
 }
 
-.wrapper h1{
+.wrapper h1 {
     fonk-size: 36px;
     text-align: center;
 }
 
-.wrapper .input-box{
+.wrapper .input-box {
     position: relative;
     width: 100%;
     height: 50px;
     margin: 30px 0;
 }
 
-.input-box input{
+.input-box input {
     width: 100%;
     height: 100%;
     background: transparent;
@@ -69,11 +70,11 @@ body-login-register{
     padding: 20px 45px 20px 20px;
 }
 
-.input-box input::placeholder{
+.input-box input::placeholder {
     color: #fff;
 }
 
-.input-box i{
+.input-box i {
     position: absolute;
     right: 20px;
     top: 50%;
@@ -81,23 +82,23 @@ body-login-register{
     font-size: 20px;
 }
 
-.wrapper .remember-forgot{
+.wrapper .remember-forgot {
     display: flex;
     justify-content: space-between;
     font-size: 14.5px;
     margin: -15px 0 15px;
 }
 
-.remember-forgot label input{
+.remember-forgot label input {
     accent-color: #fff;
     margin-right: 3px;
 }
 
-.remember-forgot a:hover{
+.remember-forgot a:hover {
     text-decoration: underline;
 }
 
-.wrapper .button{
+.wrapper .button {
     width: 100%;
     height: 45px;
     background: #fff;
@@ -111,39 +112,40 @@ body-login-register{
     font-weight: 600;
     margin-top: 15px;
 }
-.button:hover{
+
+.button:hover {
     transition: transform 0.3s;
     transform: scale(1.05);
 }
 
-.button:not(hover){
+.button:not(hover) {
     transition: transform 0.3s;
     transform: scale(1);
 }
 
-.wrapper .register-link{
+.wrapper .register-link {
     font-size: 14.5px;
     text-align: center;
     margin: 20px 0 15px;
 }
 
-.register-link p a{
+.register-link p a {
     color: #fff;
     text-decoration: none;
     font-weight: 600;
 }
 
-.register-link p a:hover{
+.register-link p a:hover {
     text-decoration: underline;
 }
 
 
-.btn:hover{
+.btn:hover {
     transition: transform 0.3s;
     transform: scale(1.05);
 }
 
-.btn:not(hover){
+.btn:not(hover) {
     transition: transform 0.3s;
     transform: scale(1);
 }

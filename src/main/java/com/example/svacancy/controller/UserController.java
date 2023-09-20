@@ -1,6 +1,5 @@
 package com.example.svacancy.controller;
 
-import com.example.svacancy.Model.Company;
 import com.example.svacancy.Model.User;
 import com.example.svacancy.Model.Vacancy;
 import com.example.svacancy.Model.dto.VacancyDto;
@@ -10,7 +9,6 @@ import com.example.svacancy.exception.RegistrationException.PermissionDeniedExce
 import com.example.svacancy.services.CompanyService;
 import com.example.svacancy.services.UserService;
 import com.example.svacancy.services.VacancyService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +18,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -137,7 +134,7 @@ public class UserController {
 //        return "user/profile";
 //    }
 
-    @PostMapping("user/{author}")
+    @PostMapping("userprofile/{author}")
     public String updateProfile(
             @AuthenticationPrincipal User currentUser,
             @PathVariable(name = "author") User author,
@@ -173,7 +170,7 @@ public class UserController {
     }
 
 
-    @GetMapping("user/userupdate/{email}/{code}")
+    @GetMapping("userprofile/userupdate/{email}/{code}")
     public String userUpdate(
             @PathVariable String code,
             @PathVariable String email,
@@ -184,7 +181,7 @@ public class UserController {
         model.addAttribute("messageType", "success");
         model.addAttribute("message", "Email successfully changed!");
 
-        return "/profile";
+        return "profile";
     }
 
     @GetMapping("subscribe/{user}")
@@ -194,7 +191,7 @@ public class UserController {
     ) {
         userService.subscribe(currentUser, user);
 
-        return "redirect:/user/profile/" + user.getId();
+        return "redirect:/userprofile/" + user.getId();
     }
 
     @GetMapping("unsubscribe/{user}")
@@ -204,7 +201,7 @@ public class UserController {
     ) {
         userService.unsubscribe(currentUser, user);
 
-        return "redirect:/user/profile/" + user.getId();
+        return "redirect:/userprofile/" + user.getId();
     }
 
     @GetMapping("{type}/{user}/list")

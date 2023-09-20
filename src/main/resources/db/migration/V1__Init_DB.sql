@@ -8,10 +8,10 @@ create table user_subscriptions (subscriber_id bigint not null, channel_id bigin
 create table usrs (id bigserial not null, activationCode varchar(255), active boolean not null, email varchar(255), password varchar(255), username varchar(255), company_id bigint, primary key (id));
 create table usrs_ChatRoom (usrs_id bigint not null, chatRooms_id bigint not null);
 create table vacancy (id bigserial not null, description varchar(10240), filename varchar(255), salary varchar(255), tag varchar(50), title varchar(2048), user_id bigint, company_id bigint, primary key (id));
-create table vacancy_usrs (vacancy_id bigint not null, numberOfResponded_id bigint not null, primary key (vacancy_id, numberOfResponded_id));
+create table vacancy_ChatRoom (vacancy_id bigint not null, chatRoomList_id bigint not null);
 alter table if exists ChatRoom_ChatMessage add constraint UK_i4wljg8iblhjcabb4xm4xml1m unique (chatMessages_id);
 alter table if exists usrs_ChatRoom add constraint UK_cpy6hnsxq9l7r1c43s2qsru8d unique (chatRooms_id);
-alter table if exists vacancy_usrs add constraint UK_99hbrow7nmuxk3ugi68u915xx unique (numberOfResponded_id);
+alter table if exists vacancy_ChatRoom add constraint UK_k1hnb83a3yivgrtn3n9u170la unique (chatRoomList_id);
 alter table if exists ChatRoom_ChatMessage add constraint FKqaitdlhnpk0c9tnjkrwsm2ktw foreign key (chatMessages_id) references ChatMessage;
 alter table if exists ChatRoom_ChatMessage add constraint FKnc3cuqbm98et6jjn0199cs7g foreign key (ChatRoom_id) references ChatRoom;
 alter table if exists Company add constraint FKmfhg21cf4v0vm9fnaiat24k1l foreign key (creator_id) references usrs;
@@ -25,8 +25,8 @@ alter table if exists usrs_ChatRoom add constraint FKmitxvbx36jyd3wdnwem2n71g9 f
 alter table if exists usrs_ChatRoom add constraint FKql2j8kcjsll7pwuud2ev00xnu foreign key (usrs_id) references usrs;
 alter table if exists vacancy add constraint FKrcceb69v07kjeeg4mvy4ca6ju foreign key (user_id) references usrs;
 alter table if exists vacancy add constraint FKk45dom1i5osttxuywn0sjbyhg foreign key (company_id) references Company;
-alter table if exists vacancy_usrs add constraint FK5dje5gv0neeeup8orp9lcnvdj foreign key (numberOfResponded_id) references usrs;
-alter table if exists vacancy_usrs add constraint FKsnux4eh2msr84payr8ufj2m0l foreign key (vacancy_id) references vacancy;
+alter table if exists vacancy_ChatRoom add constraint FKs7f6ru3tm4rthg9fc9xhugud1 foreign key (chatRoomList_id) references ChatRoom;
+alter table if exists vacancy_ChatRoom add constraint FKl47hli5ap7y0ubye4ri5g5382 foreign key (vacancy_id) references vacancy;
 
 insert into usrs (active, email, password, username)
 values (true, 'den4ic369@gmail.com', '$2a$12$rT5sQfZnE8a/T.9r58Oxzu5lFx0pT9GaWLsdwK/TvPrwjg1hdt2z6', '1'),

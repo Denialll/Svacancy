@@ -1,6 +1,5 @@
 package com.example.svacancy.Model;
 
-import com.example.svacancy.Model.ChatMessage;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -22,12 +21,17 @@ public class ChatRoom {
     private Long id;
     @NotNull
     private String chatId;
+    @ManyToOne
+    private User user;
+    @ManyToOne
+    private Vacancy vacancy;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
     public void addChatMessage(ChatMessage chatMessage) {
         this.chatMessages.add(chatMessage);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -53,8 +57,6 @@ public class ChatRoom {
         }
 
         return str;
-
     }
-//    private String hrid;
-//    private String userId;
+
 }

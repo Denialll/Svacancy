@@ -4,6 +4,7 @@ import com.example.svacancy.Model.Company;
 import com.example.svacancy.Model.User;
 import com.example.svacancy.Model.Vacancy;
 import com.example.svacancy.Model.dto.VacancyDto;
+import com.example.svacancy.repos.UserRepo;
 import com.example.svacancy.services.CompanyService;
 import com.example.svacancy.services.VacancyService;
 import jakarta.validation.Valid;
@@ -30,6 +31,7 @@ public class CompanyController {
 
     private final CompanyService companyService;
     private final VacancyService vacancyService;
+    private final UserRepo userRepo;
 
     @GetMapping("company/{companyId}")
     public String getCompany(
@@ -105,26 +107,26 @@ public class CompanyController {
         return "redirect:/adminpanel";
     }
 
-//    @PreAuthorize("hasAuthority('HR')")
-//    @GetMapping("/company/vacancy/{vacancy}")
-//    public String getCompanyVacancy(
-//            Model model,
-//            @PathVariable(name = "vacancy") Vacancy vacancy,
-//            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
-//            ) {
+    @PreAuthorize("hasAuthority('HR')")
+    @GetMapping("/company/vacancy/{vacancy}")
+    public String getCompanyVacancy(
+            Model model,
+            @PathVariable(name = "vacancy") Vacancy vacancy,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        model.addAttribute("chatRooms", vacancy.getChatRoomList());
 //        Page<User> page = userRepo.findByVacancy(pageable, vacancy.getId());
 //        System.out.println("AAAAAAAAAAAAAAA: " + page.getContent().get(0).getUsername());
-//
-//        return "/vacancy";
-//    }
+        return "/vacancy";
+    }
 
-//    @PreAuthorize("hasAuthority('COMPANYCREATOR')")
-//    @PostMapping("/removeEmploy/{employId}")
-//    public String removeEmploy(@PathVariable(name = "employId") User user) {
-//        companyService.removeEmploy(user);
-//
-//        return "redirect:/adminpanel";
-//    }
+    @PreAuthorize("hasAuthority('COMPANYCREATOR')")
+    @PostMapping("/removeEmploy/{employId}")
+    public String removeEmploy(@PathVariable(name = "employId") User user) {
+        companyService.removeEmploy(user);
+
+        return "redirect:/adminpanel";
+    }
 
 
 }

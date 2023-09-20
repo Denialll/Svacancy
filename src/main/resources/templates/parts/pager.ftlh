@@ -16,8 +16,8 @@
     </#if>
     <div class="container mt-3" style="display: inline-block">
 
-            <nav aria-label="Page navigation example">
-                <div class="row">
+        <nav aria-label="Page navigation example">
+            <div class="row">
                 <ul class="pagination col justify-content-center">
                     <li class="page-item">
                         <a class="page-link" href="${url}?page=0&size=${page.getSize()}" aria-label="Previous">
@@ -60,8 +60,8 @@
                         </#if>
                     </#list>
                 </ul>
-        </div>
-            </nav>
+            </div>
+        </nav>
 
     </div>
 </#macro>

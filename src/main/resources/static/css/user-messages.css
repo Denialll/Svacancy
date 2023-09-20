@@ -125,6 +125,7 @@
     transition: background-color 0.3s ease;
     background: #e8f6ff;
 }
+
 .chat_list:not(hover) {
     transition: background-color 0.3s ease;
     background: white;

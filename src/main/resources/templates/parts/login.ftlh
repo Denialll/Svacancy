@@ -1,5 +1,4 @@
 <#macro login path isRegisterForm>
-<#--    value="<#if user??>${user.text}</#if>"-->
 <head>
     <link rel="stylesheet" href="/static/css/login-register.css">
 </head>

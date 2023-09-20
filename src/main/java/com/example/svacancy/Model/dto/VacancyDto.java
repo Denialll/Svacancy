@@ -3,7 +3,9 @@ package com.example.svacancy.Model.dto;
 import com.example.svacancy.Model.Vacancy;
 import com.example.svacancy.Model.User;
 import com.example.svacancy.Model.util.MessageHelper;
+import lombok.Data;
 
+@Data
 public class VacancyDto {
     private Long id;
     private String title;

@@ -8,9 +8,11 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
+@Data
 @Table(name = "vacancy")
 public class Vacancy {
     @Id
@@ -29,21 +31,18 @@ public class Vacancy {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<User> numberOfResponded = new HashSet<>();
-
-    public Set<User> getNumberOfResponded() {
-        return numberOfResponded;
-    }
-
-    public void addNumberOfResponded(User user) {
-        this.numberOfResponded.add(user);
-    }
-
-    public void setNumberOfResponded(Set<User> numberOfResponded) {
-        this.numberOfResponded = numberOfResponded;
-    }
-
+    @ManyToMany
+    @JoinTable(
+            name = "message_likes",
+            joinColumns = {@JoinColumn(name = "message_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    private Set<User> likes = new HashSet<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ChatRoom> chatRoomList;
     public String getSalary() {
         return salary;
     }
@@ -67,9 +66,7 @@ public class Vacancy {
         if (salaryFrom == null && salaryTo != null) this.salary = "To " + salaryTo + " $";
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User author;
+
     private String filename;
 
     public Set<User> getLikes() {
@@ -79,14 +76,12 @@ public class Vacancy {
     public void setLikes(Set<User> likes) {
         this.likes = likes;
     }
-
-    @ManyToMany
-    @JoinTable(
-            name = "message_likes",
-            joinColumns = {@JoinColumn(name = "message_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")}
-    )
-    private Set<User> likes = new HashSet<>();
+//    public void addChatRoom(ChatRoom chatRoom){
+//        chatRoomList.add(chatRoom);
+//    }
+//    public List<ChatRoom> getChatRoomList(){
+//        return this.chatRoomList;
+//    }
 
     public Vacancy() {
     }

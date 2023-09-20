@@ -2,14 +2,9 @@ package com.example.svacancy.Model.dto;
 
 import com.example.svacancy.Model.ChatRoom;
 import com.example.svacancy.Model.Company;
-import com.example.svacancy.Model.User;
 import com.example.svacancy.Model.Vacancy;
 import com.example.svacancy.Model.enums.Role;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashSet;
 import java.util.List;
