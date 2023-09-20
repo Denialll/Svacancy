@@ -1,5 +1,4 @@
-    'use strict';
-
+'use strict';
     
 var chatPage = document.querySelector('#chatPage');
 var room = 111;
