@@ -1,19 +1,19 @@
     'use strict';
 
-    // var usernamePage = document.querySelector('#userJoin');
-    var chatPage = document.querySelector('#chatPage');
-    var room = 111;
-    var name = null;
-    var waiting = document.querySelector('.waiting');
-    var roomIdDisplay = document.querySelector('#room-id-display');
-    var chatBox = document.getElementById("msg_history");
+    
+var chatPage = document.querySelector('#chatPage');
+var room = 111;
+var name = null;
+var waiting = document.querySelector('.waiting');
+var roomIdDisplay = document.querySelector('#room-id-display');
+var chatBox = document.getElementById("msg_history");
 
-    var stompClient = null;
-    var currentSubscription;
-    var topic = null;
-    var username;
+var stompClient = null;
+var currentSubscription;
+var topic = null;
+var username;
 
-    function connect(chatroom, name) {
+function connect(chatroom, name) {
     Cookies.set('name', name);
     console.log(chatPage)
     chatPage.classList.remove('d-none');
@@ -23,16 +23,16 @@
     event.preventDefault();
 }
 
-    function onConnected() {
+function onConnected() {
     enterRoom(room);
     waiting.classList.add('d-none');
 }
 
-    function onError(error) {
+function onError(error) {
     waiting.textContent = 'uh oh! service unavailable';
 }
 
-    function enterRoom(newRoomId) {
+function enterRoom(newRoomId) {
     var roomId = newRoomId;
     console.log("ROOM ID: " + roomId);
     Cookies.set('roomId', room);
@@ -48,7 +48,7 @@
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-    function sendMessage(event) {
+function sendMessage(event) {
     var messageContent = $("#message").val().trim();
     var username = name;
     var newRoomId = room;
@@ -69,7 +69,7 @@
     event.preventDefault();
 }
 
-    function onMessageReceived(payload) {
+function onMessageReceived(payload) {
     var chatRoom = $("#chatRoom").val();
     var message = JSON.parse(payload.body);
     var messageElement = document.createElement('div');
@@ -106,12 +106,12 @@
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-    $(document).ready(function () {
+$(document).ready(function () {
     messagebox.addEventListener('submit', sendMessage, true);
 });
 
 
-    function enterChat(roomid, username) {
+function enterChat(roomid, username) {
     console.log("BUTTON");
 
     room = roomid;
